@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Router from "next/router";
-import { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import TextInputWithButton from "../components/input/TextInputWithButton";
 import useGlobalStore from "../hooks/store/useGlobalStore";
 
@@ -18,24 +18,28 @@ const Home: NextPage = () => {
     Router.push("/chat");
   }, [setUsername, usernameInput]);
 
+  const onPressEnter = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      e.key === "Enter" && onClick();
+    },
+    [onClick]
+  );
+
   return (
-    <div>
-      <main className="flex flex-col items-center justify-center min-h-[80vh]">
-        <p className="font-lato text-[48px] font-semibold text-center">
-          ws-chat
-        </p>
-        <p className="font-lato text-[24px] font-light text-center mt-2 text-[#4B4B4B]">
-          Enter your username
-        </p>
-        <TextInputWithButton
-          width="440px"
-          extraClassNames="mt-5"
-          btnDisabled={!checkUsernameLength(usernameInput)}
-          onChange={(value) => setUsernameInput(value)}
-          onClick={onClick}
-        />
-      </main>
-    </div>
+    <main className="flex flex-col items-center justify-center min-h-[80vh]">
+      <p className="font-lato text-[48px] font-semibold text-center">ws-chat</p>
+      <p className="font-lato text-[24px] font-light text-center mt-2 text-[#4B4B4B]">
+        Enter your username
+      </p>
+      <TextInputWithButton
+        width="440px"
+        extraClassNames="mt-5"
+        btnDisabled={!checkUsernameLength(usernameInput)}
+        onChange={(value) => setUsernameInput(value)}
+        onClick={onClick}
+        onKeyDown={onPressEnter}
+      />
+    </main>
   );
 };
 

@@ -13,6 +13,7 @@ export interface TextInputProps {
   onChange?: (value: string) => void;
   children?: ReactNode;
   extraClassNames?: string;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const TextInput: FunctionComponent<TextInputProps> = ({
@@ -21,6 +22,7 @@ const TextInput: FunctionComponent<TextInputProps> = ({
   onChange,
   children,
   extraClassNames,
+  onKeyDown,
 }) => {
   const [text, setText] = useState<string | null>(null);
 
@@ -48,6 +50,7 @@ ${height ? "" : "h-full"} text-[24px] font-regular text-[#404040] m-0`,
         type="text"
         className={className}
         style={style}
+        onKeyDown={onKeyDown}
       />
       {children}
     </div>
