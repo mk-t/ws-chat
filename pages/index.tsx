@@ -1,9 +1,22 @@
 import type { NextPage } from "next";
-import { useState } from "react";
+import Router from "next/router";
+import { useCallback, useState } from "react";
 import TextInputWithButton from "../components/input/TextInputWithButton";
+import useGlobalStore from "../hooks/store/useGlobalStore";
+
+const checkUsernameLength = (username: string) =>
+  username.length > 2 && username.length < 16;
 
 const Home: NextPage = () => {
-  const [usernameInput, setUserNameInput] = useState("");
+  const [usernameInput, setUsernameInput] = useState("");
+  const { setUsername } = useGlobalStore.getState();
+
+  const onClick = useCallback(() => {
+    if (!checkUsernameLength(usernameInput)) return;
+
+    setUsername(usernameInput);
+    Router.push("/chat");
+  }, [setUsername, usernameInput]);
 
   return (
     <div>
@@ -17,10 +30,9 @@ const Home: NextPage = () => {
         <TextInputWithButton
           width="440px"
           extraClassNames="mt-5"
-          btnDisabled={
-            !(usernameInput.length >= 3 && usernameInput.length < 16)
-          }
-          onChange={(value) => setUserNameInput(value)}
+          btnDisabled={!checkUsernameLength(usernameInput)}
+          onChange={(value) => setUsernameInput(value)}
+          onClick={onClick}
         />
       </main>
     </div>

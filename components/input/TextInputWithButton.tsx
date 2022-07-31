@@ -10,12 +10,17 @@ interface TextInputWithButtonProps extends TextInputProps {
 const TextInputWithButton: FunctionComponent<TextInputWithButtonProps> = (
   props
 ) => {
+  const { onClick } = props;
+  const textInputProps = { ...props };
+  delete textInputProps.onClick;
+
   return (
     <TextInput {...props}>
       <Button
         width="auto"
         extraClassNames="absolute top-0 left-[83%] right-0"
         disabled={props.btnDisabled}
+        onClick={onClick}
       >
         <div className="relative w-full h-full p-0 m-0">
           <svg

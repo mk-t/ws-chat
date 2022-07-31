@@ -5,6 +5,7 @@ import {
   ReactNode,
   useMemo,
 } from "react";
+import usePropsDimensions from "../../hooks/usePropsDimensions";
 
 export interface ButtonProps {
   onClick?: DetailedHTMLProps<
@@ -26,20 +27,25 @@ const Button: FunctionComponent<ButtonProps> = ({
   children,
   disabled,
 }) => {
-  const className = useMemo(() => {
-    let base = `group appearance-none hover:appearance-none focus:appearance-none \
+  const className = useMemo(
+    () =>
+      `group appearance-none hover:appearance-none focus:appearance-none \
 bg-[#2B85BF] hover:bg-[#5fb9f1] active:bg-[#123750] disabled:bg-[#A3A3A3] rounded-[12px] \
-w-${width ? `[${width}]` : "full"} h-${
-      height ? `[${height}]` : "full"
-    } transition-colors ${extraClassNames}`;
+${width ? "" : "w-full"} ${
+        height ? "" : "h-full"
+      } transition-colors ${extraClassNames}`,
+    [extraClassNames, height, width]
+  );
 
-    return base;
-  }, [extraClassNames, height, width]);
-
-  console.log(className);
+  const style = usePropsDimensions(width, height);
 
   return (
-    <button className={className} onClick={onClick} disabled={disabled}>
+    <button
+      className={className}
+      onClick={onClick}
+      disabled={disabled}
+      style={style}
+    >
       {children}
     </button>
   );

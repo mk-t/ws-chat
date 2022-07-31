@@ -1,13 +1,7 @@
 import type { NextPage } from "next";
 
 const Chat: NextPage = () => {
-  return (
-    <div>
-      <main>
-        <p>Chat</p>
-      </main>
-    </div>
-  );
+  return <p>Chat</p>;
 };
 
 export default Chat;
